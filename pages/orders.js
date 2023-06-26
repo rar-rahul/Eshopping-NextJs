@@ -1,6 +1,44 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import Order from "@/models/Order";
+import mongoose from "mongoose";
+import { useRouter } from 'next/router';
 const orders = () => {
+
+  const router = useRouter();
+ 
+
+  const fetchOrder = async() => { 
+    const myorder = await fetch("http://localhost:3000/api/myorder",{
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({token:localStorage.getItem('token')}),
+    });
+          
+    const res = await myorder.json();
+    console.log(res)
+  }
+
+
+ 
+  useEffect(() => {
+
+    fetchOrder()
+
+  // if(!localStorage.getItem('token')){
+  //   router.push('/')
+  // }else{
+  //   fetchOrder()
+  // }
+
+  },[])
+  
+
+
+
+
+
   return (
     <div>
         <h3 className='text-center font-bold'>My Orders</h3>
@@ -31,12 +69,6 @@ const orders = () => {
               <td class="whitespace-nowrap px-6 py-4">Thornton</td>
               <td class="whitespace-nowrap px-6 py-4">@fat</td>
             </tr>
-            <tr class="border-b dark:border-neutral-500">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-              <td class="whitespace-nowrap px-6 py-4">Larry</td>
-              <td class="whitespace-nowrap px-6 py-4">Wild</td>
-              <td class="whitespace-nowrap px-6 py-4">@twitter</td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -47,5 +79,8 @@ const orders = () => {
     </div>
   )
 }
+
+
+
 
 export default orders

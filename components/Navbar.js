@@ -6,9 +6,14 @@ import { AiFillCloseCircle } from "react-icons/Ai";
 import { AiOutlineMinusCircle } from "react-icons/Ai";
 import { AiOutlinePlusCircle } from "react-icons/Ai";
 import { MdAccountCircle } from "react-icons/Md";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = ({ cart, clearCart, removeFrmCart, user, category,logOut }) => {
   const [dropdown, setDropdown] = useState(false);
+
+  const router = useRouter();
 
   const toggeleDropdown = () => {
     setDropdown(!dropdown);
@@ -24,10 +29,21 @@ const Navbar = ({ cart, clearCart, removeFrmCart, user, category,logOut }) => {
     }
   };
 
+  const checkOut = () => { 
+      if(user.value == null ) {
+        toast.error("Please Login Before Checkout")
+        router.push('/login')
+      }else{
+        router.push('/checkout')
+      }
+  }
+
   const ref = useRef();
 
   return (
+   
     <div className="flex justify-between flex-col md:flex-row md:justify-start items-center py-2 shadow-sm sticky top-0 z-10 bg-white">
+      <ToastContainer/>
       <div className="logo mx-3">
         <Link href={"/"}>
           <Image width={50} height={10} src="/logoe.png" alt="logo" />
@@ -115,13 +131,13 @@ const Navbar = ({ cart, clearCart, removeFrmCart, user, category,logOut }) => {
           })}
         </ol>
         <div className="flex">
-          <Link href={"/checkout"}>
+          
             {" "}
-            <button class="flex mr-2  text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded text-sm">
+            <button onClick={() => {checkOut()}} class="flex mr-2  text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded text-sm">
               <BsFillBagCheckFill className="m-1" />
               Checkout
             </button>
-          </Link>
+        
           <button
             onClick={clearCart}
             class="flex mr-2  text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded text-sm"
