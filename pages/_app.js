@@ -35,6 +35,17 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+
+  const calculateTotal = () => { 
+    let subTotal = 0;
+    let keys = Object.keys(cart);
+    for (let i = 0; i < keys.length; i++) {
+      subTotal += myCart[keys[i]].price * myCart[keys[i]].qty;
+    }
+    console.log(subTotal)
+  }
+  
+
   useEffect(() => {
     router.events.on("routeChangeComplete", () => {
       setProgress(100);
@@ -47,6 +58,7 @@ export default function App({ Component, pageProps }) {
     }
     fetchProducts();
     fetchCategory();
+    
   }, [router.query]);
 
   const logOut = () => {
@@ -66,11 +78,11 @@ export default function App({ Component, pageProps }) {
   };
 
   const addToCart = (id, name, price, qty, size) => {
-    let newCart = cart;
+    let newCart = JSON.parse(JSON.stringify(cart));
     if (id in cart) {
-      newCart[id].qty = cart[id].qty + qty;
+      newCart[id]["cartItem"].qty = cart[id]["cartItem"].qty + qty;
     } else {
-      newCart[id] = { qty: 1, price, name, size };
+      newCart[id] = { cartItem: {id,qty: 1, price, name, size }};
     }
     setCart(newCart);
     saveCart(newCart);
@@ -78,11 +90,10 @@ export default function App({ Component, pageProps }) {
 
   const buyNow = (id, name, price, qty, size) => {
     saveCart({});
-    let item = { id: { qty: 1, name, price, size } };
+    let item = { cartItem: {id, qty: 1, name, price, size } };
     setCart(item);
     saveCart(item);
-    console.log(cart);
-    console.log(item);
+  
     router.push("/checkout");
   };
 
@@ -90,6 +101,18 @@ export default function App({ Component, pageProps }) {
     setCart({});
     saveCart({});
   };
+
+  const removeQty = (id,qty) => { 
+    let updatedCart = JSON.parse(JSON.stringify(cart));
+    if (id in cart) {
+      updatedCart[id]["cartItem"].qty = cart[id]["cartItem"].qty - qty;
+    }
+    if(updatedCart[id]["cartItem"].qty <= 0){
+      delete updatedCart[id];
+    }
+     setCart(updatedCart);
+     saveCart(updatedCart);
+  }
 
   return (
     <>
@@ -107,14 +130,18 @@ export default function App({ Component, pageProps }) {
         cart={cart}
         clearCart={clearCart}
         buyNow={buyNow}
+        removeQty={removeQty}
+        
       />
       <Component
         productData={products}
+        total={total}
         user={user}
         addToCart={addToCart}
         cart={cart}
         clearCart={clearCart}
         buyNow={buyNow}
+        removeQty={removeQty}
         {...pageProps}
       />
       <Footer />

@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import { useRouter } from "next/router";
 import React from "react";
 
-const order = ({ order, cart }) => {
+const order = ({ order, cart,total }) => {
   const products = Object.values(order.products);
-  console.log(products);
+  console.log(total);
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -50,7 +50,7 @@ const order = ({ order, cart }) => {
 
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
-                  Rs.{order.amount}
+                  Rs.{total}
                 </span>
                
               
