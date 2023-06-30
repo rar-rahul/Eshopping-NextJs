@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
-import Badge from '@mui/material/Badge';
-import { BsCart4, BsFillBagCheckFill } from "react-icons/Bs";
-import { AiFillCloseCircle } from "react-icons/Ai";
-import { AiOutlineMinusCircle } from "react-icons/Ai";
-import { AiOutlinePlusCircle } from "react-icons/Ai";
-import { MdAccountCircle } from "react-icons/Md";
+import Badge from "@mui/material/Badge";
+import { BsCart4, BsFillBagCheckFill } from "react-icons/bs";
+import { AiFillCloseCircle,AiOutlineMinusCircle,AiOutlinePlusCircle } from "react-icons/ai";
+
+import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -112,7 +111,6 @@ const Navbar = ({
         )}
 
         {user.value && (
-          
           <MdAccountCircle
             onMouseOver={toggeleDropdown}
             onMouseLeave={toggeleDropdown}
@@ -131,9 +129,7 @@ const Navbar = ({
           </Link>
         )}
 
-
-<BsCart4 onClick={toggleCart} className="text-3xl mr-5" />
-        
+        <BsCart4 onClick={toggleCart} className="text-3xl mr-5" />
       </div>
 
       <div
@@ -155,15 +151,31 @@ const Navbar = ({
         {cart.length == 0 && <h3>your cart is empty</h3>}
         <ol className="list-decimal font-semibold">
           {Object.keys(cart).map((k) => {
-            console.log(cart[k]["cartItem"].id)
+            console.log(cart[k]["cartItem"].id);
             return (
               <li key={k}>
                 <div className="item flex my-5">
                   <div className="w-2/3">{cart[k]["cartItem"].name} </div>
                   <div className="w-1/3 font-semibold flex items-center justify-center">
-                    <AiOutlineMinusCircle className="text-3xl mx-1"  onClick={() => {removeQty(cart[k]["cartItem"].id,1)}}/>
+                    <AiOutlineMinusCircle
+                      className="text-3xl mx-1"
+                      onClick={() => {
+                        removeQty(cart[k]["cartItem"].id, 1);
+                      }}
+                    />
                     {cart[k]["cartItem"].qty}
-                    <AiOutlinePlusCircle className="text-3xl mx-1" onClick={()=> {addToCart(cart[k]["cartItem"].id,cart[k]["cartItem"].name,cart[k]["cartItem"].price,1,"small")}}/>
+                    <AiOutlinePlusCircle
+                      className="text-3xl mx-1"
+                      onClick={() => {
+                        addToCart(
+                          cart[k]["cartItem"].id,
+                          cart[k]["cartItem"].name,
+                          cart[k]["cartItem"].price,
+                          1,
+                          "small"
+                        );
+                      }}
+                    />
                   </div>
                 </div>
               </li>

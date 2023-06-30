@@ -1,8 +1,8 @@
 
 import { Inter } from 'next/font/google'
 import Head from "next/head";
-import { AiOutlineMinusCircle } from "react-icons/Ai";
-import { AiOutlinePlusCircle } from "react-icons/Ai";
+import { AiOutlineMinusCircle } from "react-icons/ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 
 const inter = Inter({ subsets: ['latin'] })

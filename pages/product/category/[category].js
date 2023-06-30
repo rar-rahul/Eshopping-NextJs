@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/Ai';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 
 const Page = ({addToCart,removeQty,cart}) => {
    const[products,setProducts] = useState([])
