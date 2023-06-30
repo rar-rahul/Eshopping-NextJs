@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/Ai';
 
-const Page = ({addToCart}) => {
+const Page = ({addToCart,removeQty,cart}) => {
    const[products,setProducts] = useState([])
     const router = useRouter();
     const category = router.query.category;
@@ -36,13 +37,13 @@ const Page = ({addToCart}) => {
     </li>
     <li>
       <div className="flex items-center">
-        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path></svg>
         <a href="#" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">category</a>
       </div>
     </li>
     <li aria-current="page">
       <div className="flex items-center">
-        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path></svg>
         <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{router.query.category}</span>
       </div>
     </li>
@@ -75,8 +76,22 @@ const Page = ({addToCart}) => {
              </Link>
              <div className='flex'>
              <div className="mt-1 mr-14">₹{product.price}</div>
-             <div className="mt-1"><button className='bg-green-500 hover:bg-pink-700 text-white  font-bold py-1 px-4 mx-12 flex justify-end rounded-full' onClick={()=> {addToCart(product.id,product.title,product.price,1,"small")}}>AddToCart</button></div>
-             </div>
+             {product.id in cart ?(
+        <div className='flex flex-row ml-20 mt-1' id={`${product.id}`}>
+         <AiOutlineMinusCircle className="text-3xl mx-1 text-pink-500"  onClick={() => {removeQty(product.id,1)}}/>
+         {cart[product.id]["cartItem"].qty}
+          
+         <AiOutlinePlusCircle onClick={()=> {addToCart(product.id,product.title,product.price,1,"small")}} className="text-3xl mx-1 text-pink-500" />
+         </div>
+         ) : (
+          <div className="mt-1 mx-10">
+          <button onClick={()=> {addToCart(product.id,product.title,product.price,1,"small")}}
+           className='bg-green-500 hover:bg-pink-700 text-white font-bold py-1 px-4 mx-12
+            flex justify-end rounded-full'>AddCart</button>
+            </div>
+         )
+        }
+              </div>
              
             </div>
            
