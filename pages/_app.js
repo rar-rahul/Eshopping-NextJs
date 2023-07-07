@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
@@ -36,16 +36,14 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-
-  const calculateTotal = () => { 
+  const calculateTotal = () => {
     let subTotal = 0;
     let keys = Object.keys(cart);
     for (let i = 0; i < keys.length; i++) {
       subTotal += myCart[keys[i]].price * myCart[keys[i]].qty;
     }
-    console.log(subTotal)
-  }
-  
+    console.log(subTotal);
+  };
 
   useEffect(() => {
     router.events.on("routeChangeComplete", () => {
@@ -59,7 +57,6 @@ export default function App({ Component, pageProps }) {
     }
     fetchProducts();
     fetchCategory();
-    
   }, [router.query]);
 
   const logOut = () => {
@@ -72,12 +69,17 @@ export default function App({ Component, pageProps }) {
     localStorage.setItem("cart", JSON.stringify(myCart));
     let subTotal = 0;
     let keys = Object.keys(myCart);
-    for (let i = 0; i < keys.length; i++) {
-      subTotal += myCart[keys[i]]['cartItem'].price * myCart[keys[i]]['cartItem'].qty;
-    }
-    
-    setTotal(subTotal);
-   
+    // for (let i = 0; i < keys.length; i++) {
+    //   subTotal += myCart[keys[i]]['cartItem'].price * myCart[keys[i]]['cartItem'].qty;
+    // }
+
+    const arrayData = Object.entries(myCart);
+
+    const ctotal = arrayData.reduce((acc, [key, value]) => {
+      return acc + Number(value.cartItem.price) * value.cartItem.qty;
+    }, 0);
+
+    setTotal(ctotal);
   };
 
   const addToCart = (id, name, price, qty, size) => {
@@ -85,7 +87,7 @@ export default function App({ Component, pageProps }) {
     if (id in cart) {
       newCart[id]["cartItem"].qty = cart[id]["cartItem"].qty + qty;
     } else {
-      newCart[id] = { cartItem: {id,qty: 1, price, name, size }};
+      newCart[id] = { cartItem: { id, qty: 1, price, name, size } };
     }
     setCart(newCart);
     saveCart(newCart);
@@ -93,10 +95,9 @@ export default function App({ Component, pageProps }) {
 
   const buyNow = (id, name, price, qty, size) => {
     saveCart({});
-    let item = { cartItem: {id, qty: 1, name, price, size } };
+    let item = { cartItem: { id, qty: 1, name, price, size } };
     setCart(item);
     saveCart(item);
-  
     router.push("/checkout");
   };
 
@@ -105,17 +106,17 @@ export default function App({ Component, pageProps }) {
     saveCart({});
   };
 
-  const removeQty = (id,qty) => { 
+  const removeQty = (id, qty) => {
     let updatedCart = JSON.parse(JSON.stringify(cart));
     if (id in cart) {
       updatedCart[id]["cartItem"].qty = cart[id]["cartItem"].qty - qty;
     }
-    if(updatedCart[id]["cartItem"].qty <= 0){
+    if (updatedCart[id]["cartItem"].qty <= 0) {
       delete updatedCart[id];
     }
-     setCart(updatedCart);
-     saveCart(updatedCart);
-  }
+    setCart(updatedCart);
+    saveCart(updatedCart);
+  };
 
   return (
     <>
@@ -134,7 +135,6 @@ export default function App({ Component, pageProps }) {
         clearCart={clearCart}
         buyNow={buyNow}
         removeQty={removeQty}
-        
       />
       <Component
         productData={products}

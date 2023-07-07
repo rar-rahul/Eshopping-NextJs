@@ -1,3 +1,4 @@
+import Loader from "@/components/Loader";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -5,13 +6,27 @@ import { BsFillBagCheckFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
 
 
-const checkout = ({ user,cart }) => {
+
+
+
+
+const checkout = ({ user,cart,clearCart }) => {
   const router = useRouter();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [pin, setPin] = useState();
   const [mobile, setMobile] = useState();
   const [address, setAddress] = useState();
+  const [loading,setLoading] = useState(true);
+
+
+  useEffect(() => { 
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  },[])
+
+ 
 
   const handelChange = (e) => {
     if (e.target.name == "name") {
@@ -29,9 +44,10 @@ const checkout = ({ user,cart }) => {
 
   const handelSubmit = async (e) => { 
     e.preventDefault();
+    setLoading(true);
     const data = {name,email,pin,mobile,address,cart};
 
-    const saveOrder = await fetch(`${process.env.HOST_URL}/api/order`,{
+    const saveOrder = await fetch("http://localhost:3000/api/order",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,6 +59,10 @@ const checkout = ({ user,cart }) => {
 
     if(res.success == true){
       console.log(res.data._id)
+      clearCart();
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
       toast.success("Order Placed Successfully")
       router.push(`/order?id=${res.data._id}`)
     }else{
@@ -54,7 +74,9 @@ const checkout = ({ user,cart }) => {
   return (
     <div className="py-5">
       <ToastContainer/>
-      <h3 className="font-bold text-gray-700 text-center py-2 ">Checkout</h3>
+     
+      { loading ?<Loader/> :  <div>
+       <h3 className="font-bold text-gray-700 text-center py-2 ">Checkout</h3>
       <div className="text-gray-300 mx-10">Delivery Details</div>
       <div className="mx-10 py-14 border  shadow-inner mb-10 ">
       <form method="post" onSubmit={handelSubmit} className="mx-5">
@@ -132,7 +154,13 @@ const checkout = ({ user,cart }) => {
           </div>
         </div>
       </form>
-      </div>
+
+       
+
+      </div> </div>}
+     
+
+
     </div>
   );
 };
