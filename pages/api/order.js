@@ -10,7 +10,7 @@ import connectDb from "@/middelware/mongoose";
 
             const order = new Order({
                 name:req.body.name,
-                email:req.body.email,
+                email:"rahul@gmail.com",
                 products:req.body.cart,
                 address:req.body.address,
                 amount:100,

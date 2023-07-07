@@ -5,7 +5,8 @@ import React from "react";
 
 const order = ({ order, cart,total }) => {
   const products = Object.values(order.products);
-  console.log(total);
+  const data = Object.keys(products);
+  console.log(products);
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -39,10 +40,10 @@ const order = ({ order, cart,total }) => {
                     className="flex border-t border-gray-200 py-2"
                     key={index}
                   >
-                    <span className="text-gray-500">{item.name}</span>
-                    <span className="ml-auto text-gray-900">{item.qty}</span>
+                    <span className="text-gray-500">{item['cartItem'].name}</span>
+                    <span className="ml-auto text-gray-900">{item['cartItem'].qty}</span>
                     <span className="ml-auto text-gray-900">
-                      Rs.{item.price}
+                      Rs.{item['cartItem'].price}
                     </span>
                   </div>
                 );
@@ -62,7 +63,7 @@ const order = ({ order, cart,total }) => {
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-              src="https://dummyimage.com/400x400"
+              src="/order.png"
             />
           </div>
         </div>
@@ -72,16 +73,11 @@ const order = ({ order, cart,total }) => {
 };
 
 export async function getServerSideProps(context) {
-  // Fetch data from external API
-  // const res = await fetch(`https://.../data`)
-  // const data = await res.json()
 
   if (mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URL);
   }
-
   let order = await Order.findById(context.query.id);
-
   // Pass data to the page via props
   return { props: { order: JSON.parse(JSON.stringify(order)) } };
 }
