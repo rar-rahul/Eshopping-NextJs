@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { BsFillBagCheckFill } from "react-icons/Bs";
+import { BsFillBagCheckFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -31,8 +31,8 @@ const checkout = ({ user,cart }) => {
     e.preventDefault();
     const data = {name,email,pin,mobile,address,cart};
 
-    const saveOrder = await fetch("http://localhost:3000/api/order",{
-      method: "POST", // or 'PUT'
+    const saveOrder = await fetch(`${process.env.HOST_URL}/api/order`,{
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
