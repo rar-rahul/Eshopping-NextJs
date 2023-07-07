@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
@@ -72,9 +73,11 @@ export default function App({ Component, pageProps }) {
     let subTotal = 0;
     let keys = Object.keys(myCart);
     for (let i = 0; i < keys.length; i++) {
-      subTotal += myCart[keys[i]].price * myCart[keys[i]].qty;
+      subTotal += myCart[keys[i]]['cartItem'].price * myCart[keys[i]]['cartItem'].qty;
     }
+    
     setTotal(subTotal);
+   
   };
 
   const addToCart = (id, name, price, qty, size) => {
