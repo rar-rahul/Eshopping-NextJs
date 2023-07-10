@@ -6,7 +6,7 @@ import React from "react";
 const order = ({ order, cart,total }) => {
   const products = Object.values(order.products);
   const data = Object.keys(products);
-  console.log(products);
+ 
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">

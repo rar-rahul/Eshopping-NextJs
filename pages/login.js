@@ -34,7 +34,7 @@ const login = () => {
   const handelSubmit = async (e) => { 
       e.preventDefault()
       const data = {email,password}
-      console.log(data)
+     
 
   try{
       const response = await fetch('http://localhost:3000/api/login', {
@@ -46,7 +46,7 @@ const login = () => {
       });
   
       const result = await response.json();
-      console.log( result);
+     
       
      
       if(result.code == 200){

@@ -34,8 +34,7 @@ export default function Page({ addToCart, cart, buyNow }) {
 
   useEffect(() => {
     fetchProductsById();
-    console.log("slug page runnning effect");
-    console.log(product);
+  
   },[router.query.slug,product]);
 
   const onChangePin = (e) => {

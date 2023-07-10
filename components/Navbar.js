@@ -54,11 +54,11 @@ const Navbar = ({
       <ToastContainer />
       <div className="logo mx-3">
         <Link href={"/"}>
-          <Image width={50} height={10} src="/logoe.png" alt="logo" />
+          <Image width={50} height={10} priority={true} src="/logoe.png" alt="logo" className="w-auto h-auto" />
         </Link>
       </div>
       <div className="nav">
-        <ul className="flex items-center space-x-3 font-semibold bottom-1">
+        <ul className="flex items-center space-x-3 sm:mx-2 font-semibold bottom-1">
           {category.slice(0, 5).map((c, index) => {
             return (
               <li key={index}>
@@ -151,7 +151,7 @@ const Navbar = ({
         {cart.length == 0 && <h3>your cart is empty</h3>}
         <ol className="list-decimal font-semibold">
           {Object.keys(cart).map((k) => {
-            console.log(cart[k]["cartItem"].id);
+          
             return (
               <li key={k}>
                 <div className="item flex my-5">

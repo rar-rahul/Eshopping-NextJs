@@ -29,7 +29,7 @@ const signup = () => {
   const handelSubmit = async (e) => { 
       e.preventDefault()
       const data = {name,email,password}
-      console.log(data)
+     
 
   try{
       const response = await fetch('http://localhost:3000/api/signup', {
@@ -44,7 +44,7 @@ const signup = () => {
       if(result.success == true){
         toast.success("Account created successfully")
       }
-      console.log(result);
+     
     } catch (error) {
       console.error("Error:", error);
     }
