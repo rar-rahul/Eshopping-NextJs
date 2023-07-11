@@ -35,9 +35,10 @@ const login = () => {
       e.preventDefault()
       const data = {email,password}
      
+    console.log(data);
 
   try{
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`,{
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",

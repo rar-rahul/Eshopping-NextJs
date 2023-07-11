@@ -5,9 +5,8 @@ import connectDb from "@/middelware/mongoose";
 
     const handler = async(req, res) =>  {
 
-    
         if(req.method == "POST"){
-
+            
             const order = new Order({
                 name:req.body.name,
                 email:"rahul@gmail.com",

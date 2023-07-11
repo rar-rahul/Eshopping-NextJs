@@ -50,6 +50,7 @@ export default function App({ Component, pageProps }) {
       setProgress(100);
     });
     console.log("Useeffect is going on");
+   
     const token = localStorage.getItem("token");
     if (token) {
       setUser({ value: token });

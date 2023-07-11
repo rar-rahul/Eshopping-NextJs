@@ -29,10 +29,11 @@ const signup = () => {
   const handelSubmit = async (e) => { 
       e.preventDefault()
       const data = {name,email,password}
-     
+  
+      console.log(data);
 
   try{
-      const response = await fetch('http://localhost:3000/api/signup', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`,{
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -41,12 +42,14 @@ const signup = () => {
       });
   
       const result = await response.json();
+      console.log(result.data);
       if(result.success == true){
-        toast.success("Account created successfully")
+        toast.success("Account created successfully");
+        router.push('/');
       }
      
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:",error);
     }
   }
 

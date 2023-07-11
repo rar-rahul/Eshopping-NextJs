@@ -38,8 +38,9 @@ const checkout = ({ user, cart, clearCart }) => {
     e.preventDefault();
     setLoading(true);
     const data = { name, email, pin, mobile, address, cart };
+    console.log(`${process.env.HOST_URL}/api/order`);
 
-    const saveOrder = await fetch("http://localhost:3000/api/order", {
+    const saveOrder = await fetch(`${process.env.HOST_URL}/api/order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,6 +59,8 @@ const checkout = ({ user, cart, clearCart }) => {
       router.push(`/order?id=${res.data._id}`);
     } else {
       toast.error("Something went wrong while placing order");
+      
+      setLoading(false);
     }
   };
 

@@ -10,7 +10,7 @@ var jwt = require('jsonwebtoken');
 
         if(req.method == "POST"){
             let user = await User.findOne({email:req.body.email})
-            const newPass = CryptoJS.AES.decrypt(user.password, 'mykeyismynamerar');
+            const newPass = CryptoJS.AES.decrypt(user.password,process.env.SECRETE_TOKEN);
            
             const dcrytedPass = JSON.parse(newPass.toString(CryptoJS.enc.Utf8));
             if(user){
