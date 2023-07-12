@@ -1,15 +1,19 @@
 
 import Order from "@/models/Order";
 import connectDb from "@/middelware/mongoose";
-
+import jsonwebtoken from "jsonwebtoken";
 
     const handler = async(req, res) =>  {
+       
+        const data = jsonwebtoken.verify(req.body.token,process.env.SECRETE_TOKEN);
+
+        console.log(data);
 
         if(req.method == "POST"){
             
             const order = new Order({
                 name:req.body.name,
-                email:"rahul@gmail.com",
+                email:data.email,
                 products:req.body.cart,
                 address:req.body.address,
                 amount:100,

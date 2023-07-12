@@ -60,7 +60,7 @@ const login = () => {
         toast.error("Something wrong on server");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
       toast.error("Something wrong on server");
     }
   }

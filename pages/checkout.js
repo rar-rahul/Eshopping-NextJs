@@ -37,7 +37,8 @@ const checkout = ({ user, cart, clearCart }) => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = { name, email, pin, mobile, address, cart };
+    let token = localStorage.getItem("token");
+    const data = { name, email, pin, mobile, address, cart,token };
     console.log(`${process.env.HOST_URL}/api/order`);
 
     const saveOrder = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/order`,{
