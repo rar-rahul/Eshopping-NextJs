@@ -40,7 +40,7 @@ const checkout = ({ user, cart, clearCart }) => {
     const data = { name, email, pin, mobile, address, cart };
     console.log(`${process.env.HOST_URL}/api/order`);
 
-    const saveOrder = await fetch(`${process.env.HOST_URL}/api/order`, {
+    const saveOrder = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/order`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

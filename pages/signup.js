@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import mongoose from "mongoose";
+
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -103,5 +105,19 @@ const signup = () => {
     </div>
   )
 }
+
+export async function getServerSideProps(context) {
+
+  if (mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URL);
+  }
+  
+  
+
+  return {
+    props: { name: "rar"},
+  };
+}
+
 
 export default signup

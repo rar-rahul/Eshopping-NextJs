@@ -11,7 +11,7 @@ const orders = () => {
 
   const fetchOrder = async () => {
       
-    const myorder = await fetch("http://localhost:3000//api/myorder",{
+    const myorder = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/myorder`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
