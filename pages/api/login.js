@@ -17,7 +17,7 @@ var jwt = require('jsonwebtoken');
                 if(req.body.email == user.email && req.body.password == dcrytedPass){
                    
                     let token = jwt.sign({code:200,email:user.email,username:user.name  }, process.env.SECRETE_TOKEN);
-                    res.status(200).json({tokenweb:token,email:user.email,success:true,code:200})
+                    res.status(200).json({tokenweb:token,email:user.email,username:user.name,success:true,code:200})
                 }else{
                     res.status(400).json({ success:true,code:401,error:"Not Match"  })
                 }

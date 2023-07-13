@@ -4,6 +4,8 @@ import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 import LoadingBar from "react-top-loading-bar";
 
 export default function App({ Component, pageProps }) {
@@ -50,7 +52,7 @@ export default function App({ Component, pageProps }) {
       setProgress(100);
     });
     console.log("Useeffect is going on");
-   
+
     const token = localStorage.getItem("token");
     if (token) {
       setUser({ value: token });
@@ -126,6 +128,7 @@ export default function App({ Component, pageProps }) {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+      <Provider store={store}>
       <Navbar
         logOut={logOut}
         key={key}
@@ -148,6 +151,7 @@ export default function App({ Component, pageProps }) {
         removeQty={removeQty}
         {...pageProps}
       />
+      </Provider>
       <Footer />
     </>
   );

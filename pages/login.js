@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserData,setUserToken } from '@/reducer/UserSlice';
 
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,6 +12,12 @@ const login = () => {
   const[name,setName] = useState();
   const[email,setEmail] = useState();
   const[password,setPassword] = useState();
+
+
+  const rstate = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  console.log(rstate);
 
   const router = useRouter();
 
@@ -52,6 +60,8 @@ const login = () => {
      
       if(result.code == 200){
         localStorage.setItem('token',result.tokenweb);
+        dispatch(setUserData({email:result.email,username:result.username}));
+        dispatch(setUserToken(result.tokenweb));
         setEmail('')
         setPassword('')
         toast("Login Successfully");
