@@ -2,11 +2,17 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { useDispatch,useSelector } from "react-redux";
+import { addToCart,removeCart } from "@/reducer/CartSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ productData, addToCart, cart, removeQty }) {
+export default function Home({ productData,cart}) {
   const { products } = productData;
+ 
+  const store = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  console.log(store.cart);
   return (
     <div>
       <Head>
@@ -56,7 +62,7 @@ export default function Home({ productData, addToCart, cart, removeQty }) {
                     </h2>
                     <div className="flex flex-auto">
                       <div className="mt-1 mx-2 mr-10">₹{product.price}</div>
-                      {product.id in cart ? (
+                      {product.id in store.cart ? (
                         <div
                           className="flex flex-row ml-20 mt-1"
                           id={`${product.id}`}
@@ -67,33 +73,31 @@ export default function Home({ productData, addToCart, cart, removeQty }) {
                               removeQty(product.id, 1);
                             }}
                           />
-                          {cart[product.id]["cartItem"].qty}
+                          {store.cart[product.id]["cartItem"].qty}
 
                           <AiOutlinePlusCircle
-                            onClick={() => {
-                              addToCart(
-                                product.id,
-                                product.title,
-                                product.price,
-                                1,
-                                "small"
-                              );
-                            }}
+                           onClick={() => {
+                            dispatch(addToCart({ cartItem: { id:product.id, 
+                              qty: 1,
+                               price:product.price,
+                               pname: product.title, 
+                               size: 'small' } }
+                           )) 
+                           }}
                             className="text-3xl mx-1 text-pink-500"
                           />
                         </div>
                       ) : (
                         <div className="mt-1 mx-10">
                           <button
-                            onClick={() => {
-                              addToCart(
-                                product.id,
-                                product.title,
-                                product.price,
-                                1,
-                                "small"
-                              );
-                            }}
+                           onClick={() => {
+                            dispatch(addToCart({ cartItem: { id:product.id, 
+                              qty: 1,
+                               price:product.price,
+                               pname: product.title, 
+                               size: 'small' } }
+                           )) 
+                           }}
                             className="bg-green-500 hover:bg-pink-700 text-white font-bold py-1 px-4 mx-12
             flex justify-end rounded-full"
                           >
