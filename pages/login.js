@@ -35,6 +35,7 @@ const login = () => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     const data = { email, password };
+    console.log(data)
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/login`,
@@ -64,7 +65,7 @@ const login = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something wrong on server");
+      toast.error("Password not match");
     }
   };
   return (

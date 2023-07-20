@@ -1,37 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { 
-    cart:[],
-    cartTotal:0,
-}
+const initialState = {
+  cart: [],
+  cartTotal: 0,
+};
 
-export const cartSlice = createSlice({ 
-    name:'Cart',
-    initialState,
-    reducers:{
-        addToCart:(state,action) => { 
+export const cartSlice = createSlice({
+  name: "Cart",
+  initialState,
+  reducers: {
+    addToCart: (state, action) => {
+      const { id, qty } = action.payload;
 
-            const existingProduct = state.cart.find(
-                (product) => product.cartItem.id === action.payload.id
-              );
-            
-            return {
-                ...state,
-                cart: [...state.cart, action.payload]
-              };
-        },
-        removeCart:() => { 
+      const existingProduct = Object.keys(state.cart).some(
+        (productId) => productId == id
+      );
+      //const existsPid = Object.values(state.cart).find((productId) => productId == id)
 
-        },
-        clearCart:() => { 
-            state.cart = []
-        },
-        setCartTotal:() => { 
+      const constData = JSON.parse(JSON.stringify(state.cart));
 
-        }
-    }
-})
+      if (existingProduct) {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            [id]: {
+              ...action.payload,
+              qty: constData[id].qty + action.payload.qty,
+            },
+          },
+        };
+      } else {
+        return {
+          ...state,
+          cart: { ...state.cart, [id]: action.payload },
+        };
+      }
+    },
+    removeCart: (state,action) => {
+      const { id, qty } = action.payload;
+      let updatedCart = JSON.parse(JSON.stringify(state.cart));
+      console.log(updatedCart[id])
 
-export const {addToCart,removeCart,clearCart,setCartTotal} = cartSlice.actions
+      return {...state,
+            cart:{...state.cart,[id]:{...updatedCart[id],qty:updatedCart[id].qty - qty}}
+      }
+   
+    },
+    clearCart: () => {
+      return state.cart = [];
+    },
+    setCartTotal: () => {},
+  },
+});
 
-export const CartReducer = cartSlice.reducer
+export const { addToCart, removeCart, clearCart, setCartTotal } =
+  cartSlice.actions;
+
+export const CartReducer = cartSlice.reducer;

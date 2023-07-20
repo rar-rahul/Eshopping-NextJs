@@ -7,6 +7,8 @@ import { AiFillCloseCircle,AiOutlineMinusCircle,AiOutlinePlusCircle } from "reac
 
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/router";
+import { useDispatch,useSelector } from "react-redux";
+import { addToCart,removeCart,clearCart } from "@/reducer/CartSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,6 +23,10 @@ const Navbar = ({
   addToCart,
 }) => {
   const [dropdown, setDropdown] = useState(false);
+
+  const store = useSelector((state) => state.cart)
+  const dispatch = useDispatch();
+  console.log("navcart=",store.cart)
 
   const router = useRouter();
 
@@ -131,6 +137,8 @@ const Navbar = ({
 
         <BsCart4 onClick={toggleCart} className="text-3xl mr-5" />
       </div>
+
+      
 
       <div
         ref={ref}
