@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import Cart from "@/components/Cart";
 
 const DynamicComponent = dynamic(() => import("../components/Home"), {
   loading: () => <div>Loading...</div>,
@@ -34,6 +35,7 @@ export default function Home({ productData, cart }) {
       </section>
 
       <DynamicComponent productData={productData} cart={cart} />
+      {/* <Cart/> */}
     </div>
   );
 }

@@ -23,13 +23,9 @@ const Navbar = ({
   addToCart,
 }) => {
   const [dropdown, setDropdown] = useState(false);
-
   const store = useSelector((state) => state.cart)
   const dispatch = useDispatch();
-  console.log("navcart=",store.cart)
-
   const router = useRouter();
-
   const toggeleDropdown = () => {
     setDropdown(!dropdown);
   };
@@ -135,7 +131,7 @@ const Navbar = ({
           </Link>
         )}
 
-        <BsCart4 onClick={toggleCart} className="text-3xl mr-5" />
+<Link href={"/cart"}>  <BsCart4  className="text-3xl mr-5" /></Link>
       </div>
 
       

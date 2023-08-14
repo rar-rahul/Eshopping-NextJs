@@ -37,20 +37,50 @@ export const cartSlice = createSlice({
         };
       }
     },
-    removeCart: (state,action) => {
+    removeCart: (state, action) => {
       const { id, qty } = action.payload;
       let updatedCart = JSON.parse(JSON.stringify(state.cart));
-      console.log(updatedCart[id])
 
-      return {...state,
-            cart:{...state.cart,[id]:{...updatedCart[id],qty:updatedCart[id].qty - qty}}
+      if (id in updatedCart) {
+        updatedCart[id].qty =
+          JSON.parse(JSON.stringify(state.cart))[id].qty - qty;
       }
-   
+
+      if (updatedCart[id].qty <= 0) {
+        delete updatedCart[id];
+      }
+
+      if (id in updatedCart) {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            [id]: { ...updatedCart[id], qty: updatedCart[id].qty },
+          },
+        };
+      } else {
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            [id]: { qty: 0 },
+          },
+        };
+      }
     },
     clearCart: () => {
-      return state.cart = [];
+      return (state.cart = []);
     },
-    setCartTotal: () => {},
+    setCartTotal: (state, action) => {
+      const ctotal = Object.entries(action.payload)
+      .reduce(
+        (acc, [key, value]) => {
+          return acc + Number(value.price) * value.qty;
+        },
+        0
+      );
+      state.cartTotal = ctotal;
+    },
   },
 });
 

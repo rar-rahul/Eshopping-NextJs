@@ -1,19 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch,useSelector } from "react-redux";
-import { addToCart,removeCart } from "@/reducer/CartSlice";
+import { addToCart,removeCart,setCartTotal } from "@/reducer/CartSlice";
 
 const HomeComponent = ({ productData,cart}) => {
-
     const { products } = productData;
- 
     const store = useSelector((state) => state.cart);
+   
     const dispatch = useDispatch();
-  
+    useEffect(() => { 
+      dispatch(setCartTotal(store.cart))
+    })
 
-
-  
   return (
     <div>
         <section className="text-gray-600 body-font">
@@ -38,11 +37,11 @@ const HomeComponent = ({ productData,cart}) => {
                       {product.category}
                     </h3>
                     <h2 className="text-gray-900 title-font text-lg font-medium">
-                      {product.title} {}
+                      {product.title} 
                     </h2>
                     <div className="flex flex-auto">
                       <div className="mt-1 mx-2 mr-10">₹{product.price}</div>
-                      {product.id in store.cart ? (
+                      {product.id in store.cart && store.cart[product.id].qty > 0 ? (
                         <div
                           className="flex flex-row ml-20 mt-1"
                           id={`${product.id}`}
@@ -62,7 +61,9 @@ const HomeComponent = ({ productData,cart}) => {
                               qty: 1,
                                price:product.price,
                                pname: product.title, 
-                               size: 'small' } 
+                               size: 'small',
+                               img:product.images[1]
+                              } 
                            )) 
                            }}
                             className="text-3xl mx-1 text-pink-500"
@@ -77,7 +78,9 @@ const HomeComponent = ({ productData,cart}) => {
                               qty: 1,
                                price:product.price,
                                pname: product.title, 
-                               size: 'small' } 
+                               size: 'small',
+                               img:product.images[1]
+                              } 
                            )) 
                            }}
                             className="bg-green-500 hover:bg-pink-700 text-white font-bold py-1 px-4 mx-12
